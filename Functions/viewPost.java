@@ -1,8 +1,8 @@
+package Functions;
 
-
-public class Display {
+public class viewPost {
     
-    public static void main(String[] args) {
+    public void display() {
         PostTree tree = new PostTree();
         WaitingPost queue = new WaitingPost();
         queue.addPost(tree, new Post(1234, "hi world"));

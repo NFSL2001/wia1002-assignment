@@ -1,3 +1,7 @@
+package Functions;
+
+import Functions.Post;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -8,7 +12,7 @@ public class PostTree {
     
     protected boolean addPost(Post p){
         ArrayList<Integer> pastID = this.getIDs(); //get list of post ID
-        if(pastID.contains(p.getPostID())){ //check if ID is alaready in tree, do not add
+        if(pastID.contains(p.getPostID())){ //check if ID is already in tree, do not add
             return false;
         }
         Post parent = this.findPost(p.getParentID());

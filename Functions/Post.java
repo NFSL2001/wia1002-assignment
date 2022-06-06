@@ -1,3 +1,5 @@
+package Functions;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
@@ -47,14 +49,14 @@ public class Post {
     }
     /*
     public boolean removeChildAtPos(int i){
-        for(Post p: this.children){
+        for(Functions.Post p: this.children){
             if(p.getPostID() == i){
                 return this.children.remove(p);
             }
         }
         return false;
     }
-    public int getChildPosition(Post t){
+    public int getChildPosition(Functions.Post t){
         for(int i=0; i<this.getChildrenSize(); i++){
             if(this.getChild(i).equals(t)){
                 return i;
@@ -94,7 +96,7 @@ public class Post {
     public String toString(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String str = "";
-        str+="Post #" + Integer.toString(this.getPostID());
+        str+="Functions.Post #" + Integer.toString(this.getPostID());
         if(this.getParentID() != -1)
             str+="\nReplying to post #" + Integer.toString(this.getParentID());
         str+=": " + this.content;
