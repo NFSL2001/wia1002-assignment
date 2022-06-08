@@ -1,5 +1,7 @@
 package Functions;
 
+import java.io.IOException;
+
 public class viewPost {
     
     public void display() {
@@ -12,8 +14,8 @@ public class viewPost {
         queue.addPost(tree, new Post(5, "i am ok"));
         Post answerToEverything = new Post(42, "answer to everything");
         queue.addPost(tree, answerToEverything);
-        queue.addPost(tree, new Post(43, answerToEverything, "really?"));
-        queue.addPost(tree, new Post(44, answerToEverything, "It's fake!"));
+        queue.addPost(tree, new Post(43, answerToEverything, "really? \"It might just be fake...\""));
+        queue.addPost(tree, new Post(44, answerToEverything, "It's fake!\nDon't believe him!"));
         queue.addPost(tree, new Post(45, answerToEverything, "hmmmm...."));
         Post reply1 = tree.findPost(45);
         queue.addPost(tree, new Post(46, reply1, "What you think #45?"));
@@ -31,11 +33,30 @@ public class viewPost {
         for(Post p: tree.getAllPost()){
             System.out.println(p);
         }
-        System.out.println("=== Removing post #45...");
+        /*System.out.println("=== Removing post #45...");
         System.out.println(tree.removePost(45));
         for(Post p: tree.getAllPost()){
             System.out.println(p);
-        }
+        }*/
         System.out.println(answerToEverything.getChildrenSize());
+        
+        System.out.println("=== Writing tree at 'file.csv'...");
+        try {
+            saveFiles.saveTree(tree, "file.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readFiles() {
+        try {
+            PostTree tree = readFiles.readTree("file.csv");
+            for(Post p: tree.getAllPost()){
+                System.out.println(p);
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

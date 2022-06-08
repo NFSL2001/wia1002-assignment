@@ -1,8 +1,5 @@
 package Functions;
 
-import Functions.Post;
-import Functions.PostTree;
-
 import java.util.LinkedList;
 
 public class WaitingPost {

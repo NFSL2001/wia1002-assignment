@@ -22,6 +22,17 @@ public class Post {
         this.content = content;
         this.date = LocalDateTime.now();
     }
+    public Post(int postID, String content, LocalDateTime date){
+        this.postID = postID;
+        this.content = content;
+        this.date = date;
+    }
+    public Post(int postID, Post parentPost, String content, LocalDateTime date){
+        this.postID = postID;
+        this.parentPost = parentPost;
+        this.content = content;
+        this.date = date;
+    }
     
     //getter
     public int getPostID() {
@@ -96,11 +107,11 @@ public class Post {
     public String toString(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String str = "";
-        str+="Functions.Post #" + Integer.toString(this.getPostID());
+        str+="Post #" + Integer.toString(this.getPostID());
         if(this.getParentID() != -1)
             str+="\nReplying to post #" + Integer.toString(this.getParentID());
-        str+=": " + this.content;
-        str+="\nCommented at " + this.date.format(formatter);
+        str+="\n====\n" + this.content;
+        str+="\n====\nCommented at " + this.date.format(formatter);
         str+="\n";
         return str;
     }
