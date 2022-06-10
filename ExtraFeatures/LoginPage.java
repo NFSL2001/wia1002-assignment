@@ -11,16 +11,16 @@ public class LoginPage {
         Scanner loginsc = new Scanner(System.in);
 
         while (attemptCount > -1) {
-            System.out.println();
-            System.out.println();
-            System.out.println("======== Welcome to Confession Time ========");
-            System.out.println("-----------------------------------");
+            
             // Login page is Extra Features.
-            System.out.println("======== Login page ========");
+            System.out.println("======== Login admin ========");
             System.out.print("Please input your username: ");
             String username = loginsc.nextLine();
             System.out.print("Please input your password: ");
             String password = loginsc.nextLine();
+
+            System.out.println();
+
             if (username.equals("admin") && password.equals("letmein")) {
                 System.out.println("======== Welcome! ========");
                 System.out.println("--------------------------");
@@ -37,7 +37,6 @@ public class LoginPage {
         if (attemptCount == -1) {
             System.out.println("====You are locked!!!====");
             System.out.println("Please try later!");
-            System.exit(0);
         }
         return false;
     }
