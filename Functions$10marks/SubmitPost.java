@@ -1,17 +1,12 @@
 package Functions$10marks;
-// by Wei Zhang
+// by Criss
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class submitPost {
+// to submit the post
+public class SubmitPost {
     private ArrayList<String> strings;
 
-    //name ID
-
-
-    public static void main(String[] args) {
-        new submitPost().post();
-    }
     public void post(){
         //ArrayList<String> strings = new ArrayList<>();
         strings = new ArrayList<>();
