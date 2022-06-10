@@ -1,4 +1,4 @@
-package Functions;
+package Functions$10marks;
 
 public class searchPost {
 }

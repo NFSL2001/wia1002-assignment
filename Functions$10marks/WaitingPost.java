@@ -1,4 +1,4 @@
-package Functions;
+package Functions$10marks;
 
 import java.util.LinkedList;
 
