@@ -8,9 +8,10 @@ import Functions$10marks.viewPost;
 public class homepage {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
         //this is a login page belongs to Extra Features.
         //username is [admin], password is [letmein]
-        new LoginPage().login();
+        new LoginPage().login();  // by Criss
 
         while (true) {
             System.out.println("1: run test code to make a new tree");
