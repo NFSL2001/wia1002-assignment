@@ -1,4 +1,4 @@
-package Functions$10marks;
+package Functions;
 
 import java.io.*;
 import java.time.LocalDateTime;

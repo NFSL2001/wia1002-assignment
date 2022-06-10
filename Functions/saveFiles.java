@@ -1,4 +1,4 @@
-package Functions$10marks;
+package Functions;
 
 import java.io.*;
 
@@ -11,6 +11,7 @@ public class saveFiles {
             writePost(writer, post);
         }
         writer.close();
+        return;
     }
     static void writePost(PrintWriter writer, Post post) throws IOException {
         writer.print(post.getPostID());

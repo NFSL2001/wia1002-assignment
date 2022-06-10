@@ -1,6 +1,6 @@
 package main;
 
-import Functions$10marks.SubmitPost;
+import Functions.SubmitPost;
 
 public class test {
     public static void main(String[] args) {

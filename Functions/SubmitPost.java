@@ -1,4 +1,4 @@
-package Functions$10marks;
+package Functions;
 // by Criss
 import java.util.ArrayList;
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package Functions$10marks;
+package Functions;
 
 import java.io.IOException;
 
@@ -46,6 +46,7 @@ public class viewPost {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return;
     }
 
     public void readFiles() {
@@ -58,5 +59,6 @@ public class viewPost {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return;
     }
 }

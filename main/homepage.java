@@ -2,11 +2,13 @@ package main;
 
 import java.util.Scanner;
 
-import ExtraFeatures$6marks.LoginPage;
-import Functions$10marks.BatchRemoval;
-import Functions$10marks.Reply;
-import Functions$10marks.SubmitPost;
-import Functions$10marks.viewPost;
+import ExtraFeatures.LoginPage;
+import Functions.BatchRemoval;
+import Functions.Reply;
+import Functions.SubmitPost;
+import Functions.WaitingPost;
+import Functions.searchPost;
+import Functions.viewPost;
 
 public class homepage {
     public static void main(String[] args) {
@@ -14,31 +16,44 @@ public class homepage {
 
         //this is a login page belongs to Extra Features.
         //username is [admin], password is [letmein]
-        new LoginPage().login();  // by Criss
+        boolean isAdmin = new LoginPage().login();  // by Criss
 
         while (true) {
-            System.out.println("1: run test code to make a new tree");
-            System.out.println("2: read the tree from csv file");
-            System.out.println("3: ");
-            System.out.println("4: input the ID which you want to reply the post");
-            System.out.println("5: input the ID which you want to remove the post");
-            System.out.println("6: input the name which you want to remove all his/her Post");
+            System.out.println("=== Main Menu ===");
+            System.out.println("1: Submit a new post");
+            System.out.println("2: View posts");
+            System.out.println("3: Search a post");
+            System.out.println("4: ");
+            if(isAdmin){
+                System.out.println("5: ADMIN ONLY: Remove a post and subsequent posts");
+                System.out.println("6: ADMIN ONLY: View queuing posts");
+            }
+
+            //TODO: Temporary demonstration code; remove before submit
+            System.out.println("98: TEMPORARY: run test code to make a new tree");
+            System.out.println("99: TEMPORARY: read the tree from csv file");
+
+            System.out.println("-1: Exit program");
             System.out.print("Input option: ");
             int option = sc.nextInt();
             switch (option) {
-                case 1 -> new viewPost().display();
-                case 2 -> new viewPost().readFiles();
-                case 3 -> new SubmitPost().post();
-                case 4 -> new Reply().replyID("#UM");
-                case 5 -> new BatchRemoval().removeIDPost("#input an ID");
-                case 6 -> new BatchRemoval().removeAll("name");
+                case 1: new SubmitPost().post(); break;
+                case 2: new viewPost().display(); break;
+                case 3: new searchPost(); break;
+                case 4: break;
+                //break if not admin
+                case 5: if(!isAdmin) {System.out.println("Please input again!"); break;}
+                        new BatchRemoval().removeIDPost("#input an ID"); break;
+                case 6: if(!isAdmin) {System.out.println("Please input again!"); break;}
+                        new WaitingPost(); break;
                 // need more options
 
-                default -> System.out.println("Wrong! Please input again!");
-                //System.exit(0);
 
+                case 98: new viewPost().display(); break;
+                case 99: new viewPost().readFiles(); break;
+                case -1: System.exit(0);
+                default: System.out.println("Please input again!"); break;
             }
-            //sc.close();
         }
     }
 }

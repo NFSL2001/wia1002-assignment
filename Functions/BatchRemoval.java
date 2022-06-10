@@ -1,4 +1,4 @@
-package Functions$10marks;
+package Functions;
 
 public class BatchRemoval {
     //remove all the post according to the name

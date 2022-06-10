@@ -1,4 +1,4 @@
-package Functions$10marks;
+package Functions;
 
 public class Reply {
     // to reply to Post
