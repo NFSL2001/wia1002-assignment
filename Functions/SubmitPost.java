@@ -34,7 +34,7 @@ public class SubmitPost {
             arrPost.add(pt1);
             arrPost.add(pt2);
 
-            //new PostTree().addPost(stringPost);
+            new PostTree().addPost(stringPost);
             new PostQueue().addPost(pt1,stringPost);
 
             // method below
