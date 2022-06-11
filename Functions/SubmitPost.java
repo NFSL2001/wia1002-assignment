@@ -10,74 +10,61 @@ package Functions;
     6 TimeUnit.MICROSECONDS.sleep(1000);//micro second
     7 TimeUnit.NANOSECONDS.sleep(1000);//nano second
 * */
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 // to submit the post
 public class SubmitPost {
-    private ArrayList<String> strings;
-    //private ArrayList<PostTree> arrPost;
-    //private Post stringPost;
-
-    public void post() throws InterruptedException {
-        // ArrayList<String> strings = new ArrayList<>();
-        strings = new ArrayList<>();
+    public void post(PostTree postTree, PostQueue postQueue){
         Scanner in = new Scanner(System.in);
-        System.out.println("Please write your post below: ");
-        while (in.hasNext()) {
+        System.out.print("Input the post ID to reply to, leave blank if not replying: #UM");
+        int parentPostID = getInteger(in.nextLine());
+        if(parentPostID == -1){
+            System.out.println("Provided ID is not found/invalid, default to not replying.");
+        }
+
+        System.out.println("Please write your post below and end with '#' : ");
+        String user_comment = new String();
+        boolean continueInputText = true;
+        //loop to get text
+        while (continueInputText) {
             String str = in.nextLine();
-            strings.add(str);
+            //append this line to the user comment
+            user_comment += str+"\n";
 
-        /*    PostTree pt1 = new PostTree();
-            PostTree pt2 = new PostTree();
-            arrPost.add(pt1);
-            arrPost.add(pt2);*/
-
-            //new PostTree().addPost(stringPost);
-            //new PostQueue().addPost()
-
-            // method below
-            //toSleep(str);
-            char[] chars = str.toCharArray();
-            for (int i = 0; i < chars.length; i++) {
-                // if the last word is #, then end user's input and post it.
-                if (chars[chars.length - 1] == '#') { //我估计#占2个bytes
-                    strings.remove("#");
-                    //strings.remove(chars.length-1); //remove the last word #
-
-                    // this is just wait for 5 second
-                    TimeUnit.SECONDS.sleep(5);
-                    //TimeUnit.MINUTES.sleep(15);// wait for 15minutes
-
-                    System.out.println(strings);
-                    strings.clear();//clear all input before
-                    // put return here can back to the main menu, but can delete #
-                    return;//can't use break because it can't back to main menu
-                }
-
-            }
-
-   /* public void toSleep(String str) throws InterruptedException {
-        char[] chars = str.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            // if the last word is #, then end user's input and post it.
-
-            if (chars[chars.length - 1] == '#') { //我估计#占2个bytes
-                // toPost();
-                strings.remove("#");
-                //strings.remove(chars.length-1); //remove the last word #
-
-                // this is just wait for 5 second
-                TimeUnit.SECONDS.sleep(5);
-                //TimeUnit.MINUTES.sleep(15);// wait for 15minutes
-
-                System.out.println(strings);
-                strings.clear();//remove all input before
-                return; // put return here can delete the # and back to the menu
+            if(user_comment.indexOf('#') > 0) { //if last character of input is #
+                user_comment = user_comment.substring(0, user_comment.indexOf('#')); //remove last character
+                continueInputText = false; //stop looping
+                break;
             }
         }
-    }*/
+
+        //make a new post pobject
+        Post newPost = new Post(postTree.getNextPostID(), postTree.findPost(parentPostID), user_comment);
+        
+        try {
+            //add the post to the postTree
+            postQueue.addPost(postTree, newPost);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        System.out.println("Post submitted, please wait while we approve it.");
+        return;
+    }
+
+    //for parsing integer from user input
+    public static int getInteger(String strNum) {
+        if (strNum == null) {
+            return -1;
+        }
+        try {
+            int d = Integer.parseInt(strNum);
+            if(d <= 0)
+                return -1; //just in case
+            return d; //return the parsed value
+        } catch (NumberFormatException nfe) {
+            return -1;
         }
     }
 }

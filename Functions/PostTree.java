@@ -6,9 +6,12 @@ import java.util.LinkedList;
 
 public class PostTree {
     private LinkedList<Post> list = new LinkedList<>();
+    private int nextPostID = -1;
     public PostTree(){}
     
-    protected boolean addPost(Post p){
+    //change to public for testing code only
+    // DO NOT use this function for user input code, use PostQueue
+    public boolean addPost(Post p){
         ArrayList<Integer> pastID = this.getIDs(); //get list of post ID
         if(pastID.contains(p.getPostID())){ //check if ID is already in tree, do not add
             return false;
@@ -28,6 +31,8 @@ public class PostTree {
         }
         return null;
     }
+
+    //iteratively remove post
     public boolean removePost(int postID){
         if(this.findPost(postID) == null)
             return false;
@@ -64,8 +69,13 @@ public class PostTree {
         }
         return false;
     }
+    //end iteratively remove post
+
     public LinkedList<Post> getAllPost(){
         return this.list;
+    }
+    public int size(){
+        return this.list.size();
     }
     ArrayList<Integer> getIDs(){
         ArrayList<Integer> ret = new ArrayList<>();
@@ -73,5 +83,42 @@ public class PostTree {
             ret.add(p.getPostID());
         }
         return ret;
+    }
+
+    //for creating a new post
+    private int getmaxID(){
+        int ret = -1;
+        for(Post p: this.list)
+            if(p.getPostID() > ret)
+                ret = p.getPostID();
+        return ret;
+    }
+    public int getNextPostID(){ //for creating a new post
+        if(this.nextPostID == -1){ //if had not been initialize
+            this.nextPostID = this.getmaxID() + 1; //get the max id and + 1 to prevent same index
+        }
+        return this.nextPostID++; //return the integer, then increment
+    }
+
+    //for viewPost
+    public int getNextChronologicalPostID(Post post){ //get the next post *according to time*
+        if(this.list.indexOf(post) < 0){ //if post not in tree
+            return this.list.getFirst().getPostID(); //return first post
+        }
+        int list_index = this.list.indexOf(post); //get post index by time
+        if(list_index == this.list.size() - 1){ //if last post in tree
+            return this.list.getLast().getPostID(); //return first post
+        }
+        return this.list.get(list_index + 1).getPostID();
+    }
+    public int getPreviousChronologicalPostID(Post post){ //get the previous post *according to time*
+        if(this.list.indexOf(post) <= 0){ //if post not in tree or post is first post
+            return this.list.getFirst().getPostID(); //return first post
+        }
+        int list_index = this.list.indexOf(post); //get post index by time
+        if(list_index == this.list.size() - 1){ //if last post in tree
+            return this.list.getLast().getPostID(); //return last post
+        }
+        return this.list.get(list_index - 1).getPostID();
     }
 }
