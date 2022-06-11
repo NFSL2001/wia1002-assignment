@@ -17,25 +17,25 @@ import java.util.concurrent.TimeUnit;
 // to submit the post
 public class SubmitPost {
     private ArrayList<String> strings;
-    //private ArrayList<PostTree> arrPost;
-    //private Post stringPost;
+    private ArrayList<PostTree> arrPost;
+    private Post stringPost;
 
     public void post() throws InterruptedException {
         // ArrayList<String> strings = new ArrayList<>();
         strings = new ArrayList<>();
         Scanner in = new Scanner(System.in);
-        System.out.println("Please write your post below: ");
+        System.out.println("Please write your post below and end with '#' : ");
         while (in.hasNext()) {
             String str = in.nextLine();
             strings.add(str);
 
-        /*    PostTree pt1 = new PostTree();
+            PostTree pt1 = new PostTree();
             PostTree pt2 = new PostTree();
             arrPost.add(pt1);
-            arrPost.add(pt2);*/
+            arrPost.add(pt2);
 
             //new PostTree().addPost(stringPost);
-            //new PostQueue().addPost()
+            new PostQueue().addPost(pt1,stringPost);
 
             // method below
             //toSleep(str);
@@ -46,7 +46,7 @@ public class SubmitPost {
                     strings.remove("#");
                     //strings.remove(chars.length-1); //remove the last word #
 
-                    // this is just wait for 5 second
+                    // this is just wait for 5 second only for presentation
                     TimeUnit.SECONDS.sleep(5);
                     //TimeUnit.MINUTES.sleep(15);// wait for 15minutes
 
