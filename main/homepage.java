@@ -8,7 +8,7 @@ import Functions.*;
 
 public class homepage {
     public static PostTree postTree;
-    public static WaitingPost postQueue;
+    public static PostQueue postQueue;
     public static String filename = "file.csv";
 
     public static void main(String[] args) {
@@ -26,7 +26,7 @@ public class homepage {
         }
 
         // new queue for posts
-        postQueue = new WaitingPost();
+        postQueue = new PostQueue();
 
         System.out.println("======== Welcome to Confession Time ========");
         System.out.println("-----------------------------------");
@@ -104,7 +104,7 @@ public class homepage {
                         System.out.println("Please input again!");
                         break;
                     }
-                    new WaitingPost();
+                    new PostQueue();
                     break;
                 
                 // need more options

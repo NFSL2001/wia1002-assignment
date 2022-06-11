@@ -6,7 +6,7 @@ public class viewPost {
     
     public void display() {
         PostTree tree = new PostTree();
-        WaitingPost queue = new WaitingPost();
+        PostQueue queue = new PostQueue();
         queue.addPost(tree, new Post(1234, "hi world"));
         Post parent = tree.findPost(1234);
         queue.addPost(tree, new Post(1235, parent, "hi world 2"));
