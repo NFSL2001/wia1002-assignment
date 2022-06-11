@@ -4,11 +4,14 @@ import java.util.LinkedList;
 
 public class PostQueue {
     private LinkedList<Post> queue = new LinkedList<>();
-    
+
     public PostQueue(){}
     
     public Post peekPost(){
         return this.queue.peek();
+    }
+    public Post popPost(){
+        return this.queue.pop();
     }
     public boolean isEmpty(){
         return this.queue.isEmpty();

@@ -56,6 +56,7 @@ public class homepage {
             if (isAdmin) {
                 System.out.println("11: ADMIN ONLY: Remove a post and subsequent posts");
                 System.out.println("12: ADMIN ONLY: View queuing posts");
+                System.out.println("13: ADMIN ONLY: Vacation mode");
             }
 
             // TODO: Temporary demonstration code; remove before submit
