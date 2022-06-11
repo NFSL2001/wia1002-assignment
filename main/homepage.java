@@ -70,7 +70,7 @@ public class homepage {
             System.out.println();
             switch (option) {
                 case 1:
-                    new SubmitPost().post();
+                    new SubmitPost().post(postTree, postQueue);
                     break;
                 case 2:
                     new viewPost().display();

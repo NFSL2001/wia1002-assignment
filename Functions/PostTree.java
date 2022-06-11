@@ -6,9 +6,12 @@ import java.util.LinkedList;
 
 public class PostTree {
     private LinkedList<Post> list = new LinkedList<>();
+    private int nextPostID = -1;
     public PostTree(){}
     
-    protected boolean addPost(Post p){
+    //change to public for testing code only
+    // DO NOT use this function for user input code, use PostQueue
+    public boolean addPost(Post p){
         ArrayList<Integer> pastID = this.getIDs(); //get list of post ID
         if(pastID.contains(p.getPostID())){ //check if ID is already in tree, do not add
             return false;
@@ -73,5 +76,18 @@ public class PostTree {
             ret.add(p.getPostID());
         }
         return ret;
+    }
+    private int getmaxID(){
+        int ret = -1;
+        for(Post p: this.list)
+            if(p.getPostID() > ret)
+                ret = p.getPostID();
+        return ret;
+    }
+    public int getNextPostID(){ //for creating a new post
+        if(this.nextPostID == -1){ //if had not been initialize
+            this.nextPostID = this.getmaxID() + 1; //get the max id and + 1 to prevent same index
+        }
+        return this.nextPostID++; //return the integer, then increment
     }
 }
