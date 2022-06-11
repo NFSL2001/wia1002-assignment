@@ -11,7 +11,7 @@ public class homepage {
     public static PostQueue postQueue;
     public static String filename = "file.csv";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Scanner sc = new Scanner(System.in);
 
         // read tree from stored file
