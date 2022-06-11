@@ -73,7 +73,7 @@ public class homepage {
                     new SubmitPost().post(postTree, postQueue);
                     break;
                 case 2:
-                    new viewPost().display();
+                    new viewPost(postTree);
                     break;
                 case 3:
                     new searchPost();
@@ -115,10 +115,10 @@ public class homepage {
 
                 // TODO: Temporary demonstration code; remove before submit
                 case 98:
-                    new viewPost().display();
+                    new viewPost(postTree).display();
                     break;
                 case 99:
-                    new viewPost().readFiles();
+                    new viewPost(postTree).readFiles();
                     break;
 
                 // break while loop
