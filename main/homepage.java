@@ -98,7 +98,9 @@ public class homepage {
                         System.out.println("Please input again!");
                         break;
                     }
-                    new BatchRemoval().removeIDPost("#input an ID");
+                    System.out.print("Please Enter post ID: ");
+                    int batchRemoveID = sc.nextInt();
+                    new BatchRemoval().removeIDPost(batchRemoveID, postTree);
                     break;
                 case 12:
                     if (!isAdmin) {
