@@ -19,8 +19,8 @@ public class SubmitPost {
     public void post(PostTree postTree, PostQueue postQueue){
         Scanner in = new Scanner(System.in);
         System.out.println("Input the post ID to reply to, leave blank if not replying: #UM");
-        int parentPostID = getInteger(in.nextLine());
-        if(parentPostID == -1){
+        Integer parentPostID = getInteger(in.nextLine());
+        if(parentPostID == null){
             System.out.println("Provided ID is not found/invalid, default to not replying.");
         }
 
