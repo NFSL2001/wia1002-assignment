@@ -19,7 +19,7 @@ public class viewPost {
     public void viewMenu(PostTree postTree){
         Scanner option_sc = new Scanner(System.in);
         //get a list of post
-        LinkedList<Post> tree_full = postTree.getAllPost();
+        LinkedList<Post> tree_full = postTree.getAllPosts();
         int treesize = tree_full.size();
         //current page number
         int pageNum = 0;
@@ -222,19 +222,19 @@ public class viewPost {
             e1.printStackTrace();
         }
         System.out.println("Is queue empty? "+queue.isEmpty());
-        for(Post p: tree.getAllPost()){
+        for(Post p: tree.getAllPosts()){
             System.out.println(p);
         }
         System.out.println("=== Removing post #4...");
         System.out.println(tree.removePost(4));
         System.out.println("=== Removing post #1234...");
         System.out.println(tree.removePost(1234));
-        for(Post p: tree.getAllPost()){
+        for(Post p: tree.getAllPosts()){
             System.out.println(p);
         }
         /*System.out.println("=== Removing post #45...");
         System.out.println(tree.removePost(45));
-        for(Post p: tree.getAllPost()){
+        for(Post p: tree.getAllPosts()){
             System.out.println(p);
         }*/
         
@@ -250,7 +250,7 @@ public class viewPost {
     public void readFiles() {
         try {
             PostTree tree = readFiles.readTree("file.csv");
-            for(Post p: tree.getAllPost()){
+            for(Post p: tree.getAllPosts()){
                 System.out.println(p);
             }
         } catch (IOException e) {
@@ -268,7 +268,7 @@ public class viewPost {
         try {
             int d = Integer.parseInt(strNum);
             if(d <= 0)
-                return -1; //just in case
+                return null; //just in case
             return d; //return the parsed value
         } catch (NumberFormatException nfe) {
             return null;
