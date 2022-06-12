@@ -47,11 +47,8 @@ public class homepage {
             System.out.println("4: Search a post");
 
             // display whether admin login or not
-            if (!isAdmin)
-                System.out.println("5: Admin login");
-            else
-                System.out.println("5: Admin logout");
-
+            if (!isAdmin) System.out.println("5: Admin login");
+            else System.out.println("5: Admin logout");
             // functions only for admin
             if (isAdmin) {
                 System.out.println("11: ADMIN ONLY: Remove a post and subsequent posts");

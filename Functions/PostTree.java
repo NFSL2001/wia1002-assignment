@@ -23,7 +23,7 @@ public class PostTree {
             return this.list.add(p);
     }
     public Post findPost(Integer postID){
-        if(postID == null || postID == -1) return null;
+        if(postID == null) return null;
         for(Post p: this.list){
             if(p.getPostID() == postID){
                 return p;
