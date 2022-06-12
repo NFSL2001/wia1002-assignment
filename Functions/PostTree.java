@@ -71,7 +71,7 @@ public class PostTree {
     }
     //end iteratively remove post
 
-    public LinkedList<Post> getAllPost(){
+    public LinkedList<Post> getAllPosts(){
         return this.list;
     }
     public int size(){

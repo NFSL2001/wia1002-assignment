@@ -19,8 +19,8 @@ public class SubmitPost {
     public void post(PostTree postTree, PostQueue postQueue){
         Scanner in = new Scanner(System.in);
         System.out.println("Input the post ID to reply to, leave blank if not replying: #UM");
-        int parentPostID = getInteger(in.nextLine());
-        if(parentPostID == -1){
+        Integer parentPostID = getInteger(in.nextLine());
+        if(parentPostID == null){
             System.out.println("Provided ID is not found/invalid, default to not replying.");
         }
 
@@ -43,6 +43,11 @@ public class SubmitPost {
         //make a new post pobject
         Post newPost = new Post(postTree.getNextPostID(), postTree.findPost(parentPostID), user_comment);
         
+        if(spamChecking.isSpam(postQueue, newPost)){
+            System.out.println("Post is flagged as spam and not submitted.");
+            return;
+        }
+
         try {
             //add the post to the postTree , need wait few time
             postQueue.addPostQueue(postTree, newPost);
@@ -54,20 +59,5 @@ public class SubmitPost {
         System.out.println("Post submitted, please wait while we approve it.");
         return;
     }
-
-/*    //for parsing integer from user input
-    public static int getInteger(String strNum) {
-        if (strNum == null) {
-            return -1;
-        }
-        try {
-            int d = Integer.parseInt(strNum);
-            if(d <= 0)
-                return -1; //just in case
-            return d; //return the parsed value
-        } catch (NumberFormatException nfe) {
-            return -1;
-        }
-    }*/
 }
 

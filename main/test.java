@@ -13,7 +13,7 @@ public class test {
         
         //for test , this need more edit
         new SubmitPost().post(tree, queue);
-        for(Post p: tree.getAllPost()){
+        for(Post p: tree.getAllPosts()){
             System.out.println(p);
         }
         System.exit(0);

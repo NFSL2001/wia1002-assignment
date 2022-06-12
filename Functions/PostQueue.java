@@ -37,6 +37,9 @@ public class PostQueue implements Lock {
     public int queueSize(){
         return this.queue.size();
     }
+    public LinkedList<Post> getAllPosts(){
+        return this.queue;
+    }
     public Post popPost() throws InterruptedException {
         int i = this.queueSize();
         if(i <= 5){
@@ -76,22 +79,7 @@ public class PostQueue implements Lock {
     public boolean addPostQueue(PostTree tree, Post p) throws InterruptedException {
         //push post into end of queue
         this.queue.offer(p);
-        // waiting time (5-15min)
-        //TODO Runnable sleep
-
-     /*   if(this.queueSize() <= 5){
-            // this is just wait for 5 second only for presentation
-            TimeUnit.SECONDS.sleep(5);
-            //TimeUnit.MINUTES.sleep(15);// wait for 15minutes
-        } else if(this.queueSize() <= 10){
-            // this is just wait for 3 second only for presentation
-            TimeUnit.SECONDS.sleep(3);
-            //TimeUnit.MINUTES.sleep(10);// wait for 10minutes
-        } else {
-            // this is just wait for 3 second only for presentation
-            TimeUnit.SECONDS.sleep(1);
-            //TimeUnit.MINUTES.sleep(5);// wait for 10minutes
-        }*/
+        
 
         //remove post from end of queue
         Post post_remove = this.queue.poll();

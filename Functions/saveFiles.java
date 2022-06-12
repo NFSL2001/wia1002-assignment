@@ -7,7 +7,7 @@ public class saveFiles {
     public static void saveTree(PostTree tree, String filename) throws IOException {
         // FileWriter writer = new FileWriter(String.valueOf(new FileOutputStream("mainPosts.txt")));
         PrintWriter writer = new PrintWriter(new FileOutputStream(filename));
-        for(Post post: tree.getAllPost()){
+        for(Post post: tree.getAllPosts()){
             writePost(writer, post);
         }
         writer.close();
