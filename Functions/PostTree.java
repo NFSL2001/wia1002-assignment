@@ -22,8 +22,8 @@ public class PostTree {
         else
             return this.list.add(p);
     }
-    public Post findPost(int postID){
-        if(postID == -1) return null;
+    public Post findPost(Integer postID){
+        if(postID == null || postID == -1) return null;
         for(Post p: this.list){
             if(p.getPostID() == postID){
                 return p;
@@ -107,7 +107,7 @@ public class PostTree {
         }
         int list_index = this.list.indexOf(post); //get post index by time
         if(list_index == this.list.size() - 1){ //if last post in tree
-            return this.list.getLast().getPostID(); //return first post
+            return this.list.getLast().getPostID(); //return last post
         }
         return this.list.get(list_index + 1).getPostID();
     }
@@ -116,9 +116,6 @@ public class PostTree {
             return this.list.getFirst().getPostID(); //return first post
         }
         int list_index = this.list.indexOf(post); //get post index by time
-        if(list_index == this.list.size() - 1){ //if last post in tree
-            return this.list.getLast().getPostID(); //return last post
-        }
         return this.list.get(list_index - 1).getPostID();
     }
 }

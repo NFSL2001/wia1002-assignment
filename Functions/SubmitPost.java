@@ -29,12 +29,12 @@ public class SubmitPost {
         boolean continueInputText = true;
         //loop to get text
         while (continueInputText) {
-            String str = in.nextLine();
+            String str = in.nextLine().trim();
             //append this line to the user comment
             user_comment += str+"\n";
 
             if(user_comment.indexOf('#') > 0) { //if last character of input is #
-                user_comment = user_comment.substring(0, user_comment.indexOf('#')); //remove last character
+                user_comment = user_comment.substring(0, user_comment.indexOf('#')).trim(); //remove last character
                 continueInputText = false; //stop looping
                 break;
             }
@@ -44,6 +44,7 @@ public class SubmitPost {
         Post newPost = new Post(postTree.getNextPostID(), postTree.findPost(parentPostID), user_comment);
         
         if(spamChecking.isSpam(postQueue, newPost)){
+            //comment is repeated and flagged as spam
             System.out.println("Post is flagged as spam and not submitted.");
             return;
         }

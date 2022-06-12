@@ -197,68 +197,6 @@ public class viewPost {
         
         return str;
     }
-    
-    public void display() {
-        PostTree tree = new PostTree();
-        PostQueue queue = new PostQueue();
-        try {
-            queue.addPostQueue(tree, new Post(1234, "hi world"));
-            Post parent = tree.findPost(1234);
-            queue.addPostQueue(tree, new Post(1235, parent, "hi world 2"));
-            queue.addPostQueue(tree, new Post(4, "i am ok"));
-            queue.addPostQueue(tree, new Post(5, "i am ok"));
-            Post answerToEverything = new Post(42, "answer to everything");
-            queue.addPostQueue(tree, answerToEverything);
-            queue.addPostQueue(tree, new Post(43, answerToEverything, "really? \"It might just be fake...\""));
-            queue.addPostQueue(tree, new Post(44, answerToEverything, "It's fake!\nDon't believe him!"));
-            queue.addPostQueue(tree, new Post(45, answerToEverything, "hmmmm...."));
-            Post reply1 = tree.findPost(45);
-            queue.addPostQueue(tree, new Post(46, reply1, "What you think #45?"));
-            reply1 = tree.findPost(46);
-            queue.addPostQueue(tree, new Post(47, reply1, "Maybe."));
-            queue.addPostQueue(tree, new Post(48, reply1, "Maybe too."));
-        } catch (InterruptedException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        System.out.println("Is queue empty? "+queue.isEmpty());
-        for(Post p: tree.getAllPosts()){
-            System.out.println(p);
-        }
-        System.out.println("=== Removing post #4...");
-        System.out.println(tree.removePost(4));
-        System.out.println("=== Removing post #1234...");
-        System.out.println(tree.removePost(1234));
-        for(Post p: tree.getAllPosts()){
-            System.out.println(p);
-        }
-        /*System.out.println("=== Removing post #45...");
-        System.out.println(tree.removePost(45));
-        for(Post p: tree.getAllPosts()){
-            System.out.println(p);
-        }*/
-        
-        System.out.println("=== Writing tree at 'file.csv'...");
-        try {
-            saveFiles.saveTree(tree, "file.csv");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return;
-    }
-
-    public void readFiles() {
-        try {
-            PostTree tree = readFiles.readTree("file.csv");
-            for(Post p: tree.getAllPosts()){
-                System.out.println(p);
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return;
-    }
 
     //for parsing integer from user input
     public static Integer getInteger(String strNum) {

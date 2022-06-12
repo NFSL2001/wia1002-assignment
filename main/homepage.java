@@ -43,8 +43,8 @@ public class homepage {
             System.out.println("=== Main Menu ===");
             System.out.println("1: Submit a new post");
             System.out.println("2: View posts");
-            System.out.println("3: Search a post");
-            System.out.println("4: ");
+            System.out.println("3: Reply to a post");
+            System.out.println("4: Search a post");
 
             // display whether admin login or not
             if (!isAdmin)
@@ -59,10 +59,6 @@ public class homepage {
                 System.out.println("13: ADMIN ONLY: Vacation mode");
             }
 
-            // TODO: Temporary demonstration code; remove before submit
-            System.out.println("98: TEMPORARY: run test code to make a new tree");
-            System.out.println("99: TEMPORARY: read the tree from csv file");
-
             System.out.println("-1: Exit program");
             System.out.print("Input option: ");
             int option = sc.nextInt();
@@ -76,10 +72,10 @@ public class homepage {
                     new viewPost(postTree);
                     break;
                 case 3:
-                    new searchPost();
+                    new ReplyPost().reply(postTree, postQueue);
                     break;
                 case 4:
-                    new ReplyPost().reply(postTree, postQueue);
+                    new searchPost();
                     break;
 
                 // if admin, then set to false to logout
@@ -114,15 +110,6 @@ public class homepage {
                 // need more options
 
 
-                
-
-                // TODO: Temporary demonstration code; remove before submit
-                case 98:
-                    new viewPost(postTree).display();
-                    break;
-                case 99:
-                    new viewPost(postTree).readFiles();
-                    break;
 
                 // break while loop
                 case -1:
