@@ -1,12 +1,15 @@
 package Functions;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.regex.*;
 
 public class viewPost {
     private final double defaultPageSize = 10.0;
+    private final int maxCommentLength = 30;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
     private final Pattern pattern = Pattern.compile("#UM(\\d+)", Pattern.CASE_INSENSITIVE);
 
     public viewPost(PostTree postTree){
@@ -23,11 +26,12 @@ public class viewPost {
         int totalPages = (int) Math.ceil(treesize / defaultPageSize);
         boolean continueViewing = false;
         do{
+            System.out.println("\n\n");
             System.out.println("===== Select a post to view=====");
             System.out.println();
-            for(int i = treesize - 1; i < treesize - (pageNum * defaultPageSize) && i > 0; i--){
+            for(int i = treesize - 1; i < treesize - (pageNum * defaultPageSize) && i >= 0; i--){
                 Post thispost = tree_full.get(i);
-                System.out.printf("#UM%8d: \"%s\"\n", thispost.getPostID(), cutoffComment(thispost.getContent()));
+                System.out.printf("#UM%08d: \"%s\"\n", thispost.getPostID(), cutoffComment(thispost.getContent()));
             }
             System.out.println("Page " + Integer.toString(pageNum + 1) + " of "+ Integer.toString(totalPages));
             System.out.println("================================");
@@ -44,9 +48,9 @@ public class viewPost {
             System.out.println(">>> \"Q\" - quit viewing posts");
 
             System.out.println(">>> ");
-            System.out.print(">>> Option:");
+            System.out.print(">>> Option: ");
             //read input
-            String userOption = option_sc.nextLine();
+            String userOption = option_sc.nextLine().trim();
             if(getInteger(userOption) != null || pattern.matcher(userOption).find()){ //if input a digit
                 Integer nextviewID = getInteger(userOption);
                 if(nextviewID == null){
@@ -74,6 +78,7 @@ public class viewPost {
     }
     
     public void viewMenu(PostTree postTree, LinkedList<Post> posts){
+        System.out.println(posts.getFirst());
         Scanner option_sc = new Scanner(System.in);
         int postCount = posts.size();
         //current page number
@@ -81,11 +86,12 @@ public class viewPost {
         int totalPages = (int) Math.ceil(postCount / defaultPageSize);
         boolean continueViewing = false;
         do{
+            System.out.println("\n\n");
             System.out.println("===== Select a post to view=====");
             System.out.println();
-            for(int i = postCount - 1; i < postCount - (pageNum * defaultPageSize) && i > 0; i--){
+            for(int i = postCount - 1; i < postCount - (pageNum * defaultPageSize) && i >= 0; i--){
                 Post thispost = posts.get(i);
-                System.out.printf("#UM%8d: \"%s\"\n", thispost.getPostID(), cutoffComment(thispost.getContent()));
+                System.out.printf("#UM%08d: \"%s\"\n", thispost.getPostID(), cutoffComment(thispost.getContent()));
             }
             System.out.println("Page " + Integer.toString(pageNum + 1) + " of "+ Integer.toString(totalPages));
             System.out.println("================================");
@@ -102,9 +108,9 @@ public class viewPost {
             System.out.println(">>> \"Q\" - quit viewing posts");
 
             System.out.println(">>> ");
-            System.out.print(">>> Option:");
+            System.out.print(">>> Option: ");
             //read input
-            String userOption = option_sc.nextLine();
+            String userOption = option_sc.nextLine().trim();
             if(getInteger(userOption) != null || pattern.matcher(userOption).find()){ //if input a digit
                 Integer nextviewID = getInteger(userOption);
                 if(nextviewID == null){
@@ -138,11 +144,11 @@ public class viewPost {
         //print post item
         System.out.println("\n\n");
         System.out.println("================================");
-        System.out.printf("#UM%8d\n", post.getPostID());
-        System.out.printf("[%s]", post.getDate().toString());
-        System.out.println();
+        System.out.printf("#UM%08d\n", post.getPostID());
+        System.out.printf("[%s]\n", post.getDate().format(formatter));
+        System.out.println("");
         if(post.getParentID() != -1)
-            System.out.printf("Reply to #UM%8d\n", post.getParentID());
+            System.out.printf("Reply to #UM%08d\n", post.getParentID());
         System.out.println(post.getContent());
         System.out.println("================================");
 
@@ -150,7 +156,7 @@ public class viewPost {
         System.out.println();
         System.out.println(">>> Options:");
         if(post.getParentID() != -1)
-            System.out.printf(">>> \"W\" - view post #UM%8d\n", post.getParentID());
+            System.out.printf(">>> \"W\" - view post #UM%08d\n", post.getParentID());
         System.out.println(">>> \"A\" - view previous post");
         if(post.getChildrenSize() > 0)
             System.out.println(">>> \"S\" - view posts replying to this post");
@@ -162,16 +168,16 @@ public class viewPost {
         boolean askInputAgain = false;
         do{
             askInputAgain = false;
-            System.out.print(">>> Option:");
-            String userOption = option_sc.nextLine();
+            System.out.print(">>> Option: ");
+            String userOption = option_sc.nextLine().trim();
             if(userOption.length() == 1){
                 switch(userOption.toUpperCase()){
                     case "Q": break; //exit code
                     case "W": viewSinglePost(postTree, post.getParentID());
                               break;
-                    case "A": viewSinglePost(postTree, postTree.getNextChronologicalPostID(post));
+                    case "A": viewSinglePost(postTree, postTree.getPreviousChronologicalPostID(post));
                               break;
-                    case "D": viewSinglePost(postTree, postTree.getPreviousChronologicalPostID(post));
+                    case "D": viewSinglePost(postTree, postTree.getNextChronologicalPostID(post));
                               break;
                     case "S": this.viewMenu(postTree, post.getChildren()); break; //temporary
                     default: askInputAgain = true; break;
@@ -183,11 +189,10 @@ public class viewPost {
     
     public String cutoffComment(String str){
         str = str.trim().replaceAll("[\\t\\n\\r]+"," ");
-        int maxWidth = 20;
         
-        if(str.length() > maxWidth){
-            int correctedMaxWidth = (Character.isLowSurrogate(str.charAt(maxWidth)))&&maxWidth>0 ? maxWidth-1 : maxWidth;
-            return str.substring(0, Math.min(str.length(), correctedMaxWidth))) + "...";
+        if(str.length() > this.maxCommentLength){
+            int correctedMaxWidth = (Character.isLowSurrogate(str.charAt(this.maxCommentLength)))&&this.maxCommentLength>0 ? this.maxCommentLength-1 : this.maxCommentLength;
+            return str.substring(0, Math.min(str.length(), correctedMaxWidth)) + "...";
         }
         
         return str;
