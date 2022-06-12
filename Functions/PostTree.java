@@ -86,7 +86,7 @@ public class PostTree {
     }
 
     //for creating a new post
-    private int getmaxID(){
+    private int getMaxID(){
         int ret = -1;
         for(Post p: this.list)
             if(p.getPostID() > ret)
@@ -95,7 +95,7 @@ public class PostTree {
     }
     public int getNextPostID(){ //for creating a new post
         if(this.nextPostID == -1){ //if had not been initialize
-            this.nextPostID = this.getmaxID() + 1; //get the max id and + 1 to prevent same index
+            this.nextPostID = this.getMaxID() + 1; //get the max id and + 1 to prevent same index
         }
         return this.nextPostID++; //return the integer, then increment
     }

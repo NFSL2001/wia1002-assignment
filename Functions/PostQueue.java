@@ -1,6 +1,8 @@
 package Functions;
 
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -18,13 +20,16 @@ import java.util.concurrent.locks.Lock;
 public class PostQueue implements Lock {
     private LinkedList<Post> queue = new LinkedList<>();
 
-    public PostQueue(){}
-    
+    public PostQueue(){
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println();
+            }
+        },2000L );
+    }
     public Post peekPost(){
         return this.queue.peek();
-    }
-    public Post popPost(){
-        return this.queue.pop();
     }
     public boolean isEmpty(){
         return this.queue.isEmpty();
@@ -32,14 +37,49 @@ public class PostQueue implements Lock {
     public int queueSize(){
         return this.queue.size();
     }
+    public Post popPost() throws InterruptedException {
+        int i = this.queueSize();
+        if(i <= 5){
+            // this is just wait for 5 second only for presentation
+            TimeUnit.SECONDS.sleep(5);
+            //TimeUnit.MINUTES.sleep(15);// wait for 15minutes
+            //Pop from Queue
+            //new PostQueue().popPost(); //By Cris
+            popPost();
+            this.queue.pop();
+            i--;
 
-    public boolean addPost(PostTree tree, Post p) throws InterruptedException {
+        } else if(i <= 10){
+            // this is just wait for 3 second only for presentation
+            TimeUnit.SECONDS.sleep(3);
+            //TimeUnit.MINUTES.sleep(10);// wait for 10minutes
+            //Pop from Queue
+            //new PostQueue().popPost();
+            popPost();
+            this.queue.pop();
+            i--;
+        } else {
+            // this is just wait for 3 second only for presentation
+            TimeUnit.SECONDS.sleep(1);
+            //TimeUnit.MINUTES.sleep(5);// wait for 10minutes
+            //Pop from Queue
+            //new PostQueue().popPost();
+            popPost();
+            this.queue.pop();
+            i--;
+
+        }
+        return this.queue.pop();
+    }
+
+
+    public boolean addPostQueue(PostTree tree, Post p) throws InterruptedException {
         //push post into end of queue
         this.queue.offer(p);
         // waiting time (5-15min)
         //TODO Runnable sleep
 
-        if(this.queueSize() <= 5){
+     /*   if(this.queueSize() <= 5){
             // this is just wait for 5 second only for presentation
             TimeUnit.SECONDS.sleep(5);
             //TimeUnit.MINUTES.sleep(15);// wait for 15minutes
@@ -51,11 +91,12 @@ public class PostQueue implements Lock {
             // this is just wait for 3 second only for presentation
             TimeUnit.SECONDS.sleep(1);
             //TimeUnit.MINUTES.sleep(5);// wait for 10minutes
-        }
+        }*/
 
         //remove post from end of queue
         Post post_remove = this.queue.poll();
         //add the post into tree
+        assert post_remove != null;
         return tree.addPost(post_remove);
     }
 

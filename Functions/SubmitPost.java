@@ -12,18 +12,20 @@ package Functions;
 * */
 import java.util.Scanner;
 
+import static Functions.viewPost.getInteger;
+
 // to submit the post
 public class SubmitPost {
     public void post(PostTree postTree, PostQueue postQueue){
         Scanner in = new Scanner(System.in);
-        System.out.print("Input the post ID to reply to, leave blank if not replying: #UM");
+        System.out.println("Input the post ID to reply to, leave blank if not replying: #UM");
         int parentPostID = getInteger(in.nextLine());
         if(parentPostID == -1){
             System.out.println("Provided ID is not found/invalid, default to not replying.");
         }
 
         System.out.println("Please write your post below and end with '#' : ");
-        String user_comment = new String();
+        String user_comment = "";
         boolean continueInputText = true;
         //loop to get text
         while (continueInputText) {
@@ -42,8 +44,8 @@ public class SubmitPost {
         Post newPost = new Post(postTree.getNextPostID(), postTree.findPost(parentPostID), user_comment);
         
         try {
-            //add the post to the postTree
-            postQueue.addPost(postTree, newPost);
+            //add the post to the postTree , need wait few time
+            postQueue.addPostQueue(postTree, newPost);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -53,7 +55,7 @@ public class SubmitPost {
         return;
     }
 
-    //for parsing integer from user input
+/*    //for parsing integer from user input
     public static int getInteger(String strNum) {
         if (strNum == null) {
             return -1;
@@ -66,6 +68,6 @@ public class SubmitPost {
         } catch (NumberFormatException nfe) {
             return -1;
         }
-    }
+    }*/
 }
 

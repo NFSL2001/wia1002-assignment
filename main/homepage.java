@@ -79,6 +79,7 @@ public class homepage {
                     new searchPost();
                     break;
                 case 4:
+                    new ReplyPost().reply(postTree, postQueue);
                     break;
 
                 // if admin, then set to false to logout
