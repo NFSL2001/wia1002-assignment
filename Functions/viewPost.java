@@ -27,7 +27,65 @@ public class viewPost {
             System.out.println();
             for(int i = treesize - 1; i < treesize - (pageNum * defaultPageSize) && i > 0; i--){
                 Post thispost = tree_full.get(i);
-                System.out.printf("#UM%8d: \"%s\"\n", thispost.getPostID(), thispost.getContent());
+                System.out.printf("#UM%8d: \"%s\"\n", thispost.getPostID(), cutoffComment(thispost.getContent()));
+            }
+            System.out.println("Page " + Integer.toString(pageNum + 1) + " of "+ Integer.toString(totalPages));
+            System.out.println("================================");
+
+            //show options
+            System.out.println();
+            System.out.println(">>> Options:");
+            if(pageNum > 0)
+                System.out.println(">>> \"A\" - view previous page");
+            if(pageNum < totalPages && totalPages > 1)
+                System.out.println(">>> \"D\" - view next page");
+            System.out.println(">>> <number> or \"#UM??????\" - view confession with selected ID");
+            System.out.println(">>> \"S\" - search post");
+            System.out.println(">>> \"Q\" - quit viewing posts");
+
+            System.out.println(">>> ");
+            System.out.print(">>> Option:");
+            //read input
+            String userOption = option_sc.nextLine();
+            if(getInteger(userOption) != null || pattern.matcher(userOption).find()){ //if input a digit
+                Integer nextviewID = getInteger(userOption);
+                if(nextviewID == null){
+                    Matcher m = pattern.matcher(userOption);
+                    nextviewID = Integer.parseInt(m.group(1));
+                }
+                this.viewSinglePost(postTree, nextviewID); 
+                return;
+            }
+            if(userOption.length() == 1){
+                switch(userOption){
+                    case "Q": continueViewing = false; return; //exit code
+                    case "A": if(pageNum > 0) pageNum--; 
+                              else System.out.println("Invalid option!"); 
+                              break;
+                    case "D": if(pageNum < totalPages && totalPages > 1) pageNum++;
+                              else System.out.println("Invalid option!"); 
+                              break;
+                    case "S": new searchPost(); //go to search post
+                              continueViewing = false; return; //exit code when done searching
+                }
+            }
+        } while(continueViewing);
+        return;
+    }
+    
+    public void viewMenu(PostTree postTree, LinkedList<Post> posts){
+        Scanner option_sc = new Scanner(System.in);
+        int postCount = posts.size();
+        //current page number
+        int pageNum = 0;
+        int totalPages = (int) Math.ceil(postCount / defaultPageSize);
+        boolean continueViewing = false;
+        do{
+            System.out.println("===== Select a post to view=====");
+            System.out.println();
+            for(int i = postCount - 1; i < postCount - (pageNum * defaultPageSize) && i > 0; i--){
+                Post thispost = posts.get(i);
+                System.out.printf("#UM%8d: \"%s\"\n", thispost.getPostID(), cutoffComment(thispost.getContent()));
             }
             System.out.println("Page " + Integer.toString(pageNum + 1) + " of "+ Integer.toString(totalPages));
             System.out.println("================================");
@@ -115,14 +173,25 @@ public class viewPost {
                               break;
                     case "D": viewSinglePost(postTree, postTree.getPreviousChronologicalPostID(post));
                               break;
-                    case "S": this.viewMenu(postTree); break; //temporary
+                    case "S": this.viewMenu(postTree, post.getChildren()); break; //temporary
                     default: askInputAgain = true; break;
                 }
             }
         } while(askInputAgain);
         return;
     }
-
+    
+    public String cutoffComment(String str){
+        str = str.trim().replaceAll("[\\t\\n\\r]+"," ");
+        int maxWidth = 20;
+        
+        if(str.length() > maxWidth){
+            int correctedMaxWidth = (Character.isLowSurrogate(str.charAt(maxWidth)))&&maxWidth>0 ? maxWidth-1 : maxWidth;
+            return str.substring(0, Math.min(str.length(), correctedMaxWidth))) + "...";
+        }
+        
+        return str;
+    }
     
     public void display() {
         PostTree tree = new PostTree();
