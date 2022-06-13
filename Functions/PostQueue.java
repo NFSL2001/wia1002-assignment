@@ -76,7 +76,7 @@ public class PostQueue implements Lock {
     }
 
 
-    public boolean addPostQueue(PostTree tree, Post p) throws InterruptedException {
+    public boolean addTask(PostTree tree, Post p) throws InterruptedException {
         //push post into end of queue
         this.queue.offer(p);
         

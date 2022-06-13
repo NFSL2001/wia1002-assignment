@@ -84,7 +84,7 @@ public class SubmitPost {
 
         try {
             //add the post to the postTree , need wait few time
-            postQueue.addPostQueue(postTree, newPost);
+            postQueue.addTask(postTree, newPost);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
