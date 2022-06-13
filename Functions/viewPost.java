@@ -7,9 +7,9 @@ import java.util.regex.*;
 
 public class viewPost {
     private final double defaultPageSize = 10.0;
-    private final int maxCommentLength = 30;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
-    private final Pattern pattern = Pattern.compile("#UM(\\d+)", Pattern.CASE_INSENSITIVE);
+    private final static int maxCommentLength = 30;
+    final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
+    final static Pattern pattern = Pattern.compile("#UM(\\d+)", Pattern.CASE_INSENSITIVE);
 
     public viewPost(PostTree postTree, PostQueue postQueue){
         this.viewMenu(postTree, postQueue);
@@ -26,14 +26,14 @@ public class viewPost {
         boolean continueViewing = true;
         do{
             System.out.println("\n\n");
-            System.out.println("===== Select a post to view=====");
+            System.out.println("===== Select a post to view =====");
             System.out.println();
             for(int i = treesize - 1; i < treesize - (pageNum * defaultPageSize) && i >= 0; i--){
                 Post thispost = tree_full.get(i);
                 System.out.printf("#UM%08d: \"%s\"\n", thispost.getPostID(), cutoffComment(thispost.getContent()));
             }
             System.out.println("Page " + Integer.toString(pageNum + 1) + " of "+ Integer.toString(totalPages));
-            System.out.println("================================");
+            System.out.println("=================================");
 
             //show options
             System.out.println();
@@ -81,7 +81,6 @@ public class viewPost {
     }
     
     public void viewMenu(PostTree postTree, PostQueue postQueue, LinkedList<Post> posts){
-        System.out.println(posts.getFirst());
         Scanner option_sc = new Scanner(System.in);
         int postCount = posts.size();
         //current page number
@@ -90,14 +89,14 @@ public class viewPost {
         boolean continueViewing = true;
         do{
             System.out.println("\n\n");
-            System.out.println("===== Select a post to view=====");
+            System.out.println("===== Select a post to view =====");
             System.out.println();
             for(int i = postCount - 1; i < postCount - (pageNum * defaultPageSize) && i >= 0; i--){
                 Post thispost = posts.get(i);
                 System.out.printf("#UM%08d: \"%s\"\n", thispost.getPostID(), cutoffComment(thispost.getContent()));
             }
             System.out.println("Page " + Integer.toString(pageNum + 1) + " of "+ Integer.toString(totalPages));
-            System.out.println("================================");
+            System.out.println("=================================");
 
             //show options
             System.out.println();
@@ -198,11 +197,11 @@ public class viewPost {
         return;
     }
     
-    public String cutoffComment(String str){
+    public static String cutoffComment(String str){
         str = str.trim().replaceAll("[\\t\\n\\r]+"," ");
         
-        if(str.length() > this.maxCommentLength){
-            int correctedMaxWidth = (Character.isLowSurrogate(str.charAt(this.maxCommentLength)))&&this.maxCommentLength>0 ? this.maxCommentLength-1 : this.maxCommentLength;
+        if(str.length() > maxCommentLength){
+            int correctedMaxWidth = (Character.isLowSurrogate(str.charAt(maxCommentLength)))&&maxCommentLength>0 ? maxCommentLength-1 : maxCommentLength;
             return str.substring(0, Math.min(str.length(), correctedMaxWidth)) + "…";
         }
         
