@@ -50,6 +50,7 @@ public class test_concurrent {
         }
         System.out.println(queue.size());
         for(Post p: queue)
+            p.getPostID();
             tree.addPost(queue.poll());
         System.out.println(queue.size());
 
