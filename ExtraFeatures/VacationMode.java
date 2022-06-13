@@ -17,8 +17,8 @@ public class VacationMode {
     }
     // returns HashMap with true values if the post does not contain rude words or personal information
     // like email, phone number, or does not contain any URL.
-    public static HashMap<String, Boolean> checkPost(String post) throws IOException, InterruptedException {
-        api apiObject = apiCall(post);
+    public static HashMap<String, Boolean> checkPost(String comment) throws IOException, InterruptedException {
+        api apiObject = apiCall(comment);
         HashMap<String, Boolean> checkMap = new HashMap<>();
         checkMap.put("polite", isPolite(apiObject));
         checkMap.put("noPersonalInfo", doesNotContainPersonalInfo(apiObject));

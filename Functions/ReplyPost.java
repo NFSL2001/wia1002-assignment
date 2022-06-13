@@ -31,22 +31,7 @@ public class ReplyPost {
 
         //make a new post pobject
         Post newPost = new Post(postTree.getNextPostID(), parentPost, user_comment);
-        
-        if(spamChecking.isSpam(postQueue, newPost)){
-            //comment is repeated and flagged as spam
-            System.out.println("Post is flagged as spam and not submitted.");
-            return;
-        }
-
-        try {
-            //add the post to the postTree , need wait few time
-            postQueue.addPostQueue(postTree, newPost);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        System.out.println("Post submitted, please wait while we approve it.");
+        SubmitPost.pushPostToQueue(postTree, postQueue, newPost);
         return;
     }
 }

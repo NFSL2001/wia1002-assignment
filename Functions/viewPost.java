@@ -24,7 +24,7 @@ public class viewPost {
         //current page number
         int pageNum = 0;
         int totalPages = (int) Math.ceil(treesize / defaultPageSize);
-        boolean continueViewing = false;
+        boolean continueViewing = true;
         do{
             System.out.println("\n\n");
             System.out.println("===== Select a post to view=====");
@@ -57,8 +57,12 @@ public class viewPost {
                     Matcher m = pattern.matcher(userOption);
                     nextviewID = Integer.parseInt(m.group(1));
                 }
-                this.viewSinglePost(postTree, postQueue, nextviewID); 
-                return;
+                //check if postID is valid
+                if(postTree.getIDs().indexOf(nextviewID) != -1){
+                    this.viewSinglePost(postTree, postQueue, nextviewID); 
+                    return;
+                } else
+                    System.out.println("Invalid option. Please try again.");
             }
             if(userOption.length() == 1){
                 switch(userOption){
@@ -84,7 +88,7 @@ public class viewPost {
         //current page number
         int pageNum = 0;
         int totalPages = (int) Math.ceil(postCount / defaultPageSize);
-        boolean continueViewing = false;
+        boolean continueViewing = true;
         do{
             System.out.println("\n\n");
             System.out.println("===== Select a post to view=====");
@@ -117,8 +121,12 @@ public class viewPost {
                     Matcher m = pattern.matcher(userOption);
                     nextviewID = Integer.parseInt(m.group(1));
                 }
-                this.viewSinglePost(postTree, postQueue, nextviewID); 
-                return;
+                //check if postID is valid
+                if(postTree.getIDs().indexOf(nextviewID) != -1){
+                    this.viewSinglePost(postTree, postQueue, nextviewID); 
+                    return;
+                } else
+                    System.out.println("Invalid option. Please try again.");
             }
             if(userOption.length() == 1){
                 switch(userOption){

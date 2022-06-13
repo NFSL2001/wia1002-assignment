@@ -1,6 +1,8 @@
 package Functions;
 
 
+import java.io.IOException;
+import java.util.HashMap;
 /* By Criss
     1 TimeUnit.DAYS.sleep(1);//day
     2 TimeUnit.HOURS.sleep(1);//hour
@@ -11,6 +13,9 @@ package Functions;
     7 TimeUnit.NANOSECONDS.sleep(1000);//nano second
 * */
 import java.util.Scanner;
+
+import ExtraFeatures.VacationMode;
+import main.homepage;
 
 import static Functions.viewPost.getInteger;
 
@@ -46,11 +51,35 @@ public class SubmitPost {
 
         //make a new post pobject
         Post newPost = new Post(postTree.getNextPostID(), postTree.findPost(parentPostID), user_comment);
-        
+        pushPostToQueue(postTree, postQueue, newPost);
+        return;
+    }
+
+    public static void pushPostToQueue(PostTree postTree, PostQueue postQueue, Post newPost){
+        System.out.println("\n");
+        //filtering spam
         if(spamChecking.isSpam(postQueue, newPost)){
             //comment is repeated and flagged as spam
-            System.out.println("Post is flagged as spam and not submitted.");
+            System.out.println("WARNING: Post is flagged as spam and not submitted.");
             return;
+        }
+        //filtering content
+        if(homepage.isOnVacation){
+            HashMap<String, Boolean> dict;
+            try {
+                dict = VacationMode.checkPost(newPost.getContent());
+                if(!dict.get("polite") || !dict.get("noPersonalInfo") || !dict.get("noURLs")){
+                    //comment is not 
+                    System.out.println("WARNING: Post is rejected and not submitted.");
+                    return;
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
         try {

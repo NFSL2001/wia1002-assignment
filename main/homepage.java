@@ -10,6 +10,7 @@ public class homepage {
     public static PostTree postTree;
     public static PostQueue postQueue;
     public static String filename = "file.csv";
+    public static boolean isOnVacation = false;
 
     public static void main(String[] args) throws InterruptedException {
         Scanner sc = new Scanner(System.in);
@@ -53,7 +54,11 @@ public class homepage {
             if (isAdmin) {
                 System.out.println("11: ADMIN ONLY: Remove a post and subsequent posts");
                 System.out.println("12: ADMIN ONLY: View queuing posts");
-                System.out.println("13: ADMIN ONLY: Vacation mode");
+                System.out.print("13: ADMIN ONLY: Vacation mode: Turn ");
+                if(isOnVacation)
+                    System.out.println("off");
+                else
+                    System.out.println("on");
             }
 
             System.out.println("-1: Exit program");
@@ -102,6 +107,13 @@ public class homepage {
                         break;
                     }
                     new PostQueue();
+                    break;
+                case 13:
+                    if (!isAdmin) {
+                        System.out.println("Please input again!");
+                        break;
+                    }
+                    isOnVacation = !isOnVacation;
                     break;
                 
                 // need more options
