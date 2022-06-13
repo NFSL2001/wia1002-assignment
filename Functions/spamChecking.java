@@ -1,6 +1,7 @@
 package Functions;
 
 public class spamChecking {
+    private final static double similarityScore = 0.9;
 
     public static boolean isSpam (PostQueue queue, Post post){
         return isSimilarContent(queue, post.getContent());
@@ -9,7 +10,7 @@ public class spamChecking {
         for(Post p:queue.getAllPosts()){
             String compare = p.getContent();
             double score = StringSimilarity.editDistance(compare, comment);
-            if(score > 0.9)
+            if(score > similarityScore)
                 return true;
         }
         return false;

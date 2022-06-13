@@ -12,11 +12,11 @@ public class viewPost {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
     private final Pattern pattern = Pattern.compile("#UM(\\d+)", Pattern.CASE_INSENSITIVE);
 
-    public viewPost(PostTree postTree){
-        this.viewMenu(postTree);
+    public viewPost(PostTree postTree, PostQueue postQueue){
+        this.viewMenu(postTree, postQueue);
     }
 
-    public void viewMenu(PostTree postTree){
+    public void viewMenu(PostTree postTree, PostQueue postQueue){
         Scanner option_sc = new Scanner(System.in);
         //get a list of post
         LinkedList<Post> tree_full = postTree.getAllPosts();
@@ -57,7 +57,7 @@ public class viewPost {
                     Matcher m = pattern.matcher(userOption);
                     nextviewID = Integer.parseInt(m.group(1));
                 }
-                this.viewSinglePost(postTree, nextviewID); 
+                this.viewSinglePost(postTree, postQueue, nextviewID); 
                 return;
             }
             if(userOption.length() == 1){
@@ -77,7 +77,7 @@ public class viewPost {
         return;
     }
     
-    public void viewMenu(PostTree postTree, LinkedList<Post> posts){
+    public void viewMenu(PostTree postTree, PostQueue postQueue, LinkedList<Post> posts){
         System.out.println(posts.getFirst());
         Scanner option_sc = new Scanner(System.in);
         int postCount = posts.size();
@@ -117,7 +117,7 @@ public class viewPost {
                     Matcher m = pattern.matcher(userOption);
                     nextviewID = Integer.parseInt(m.group(1));
                 }
-                this.viewSinglePost(postTree, nextviewID); 
+                this.viewSinglePost(postTree, postQueue, nextviewID); 
                 return;
             }
             if(userOption.length() == 1){
@@ -137,7 +137,7 @@ public class viewPost {
         return;
     }
 
-    public void viewSinglePost(PostTree postTree, int postID){
+    public void viewSinglePost(PostTree postTree, PostQueue postQueue, int postID){
         Scanner option_sc = new Scanner(System.in);
         Post post = postTree.findPost(postID);
 
@@ -161,6 +161,7 @@ public class viewPost {
         if(post.getChildrenSize() > 0)
             System.out.println(">>> \"S\" - view posts replying to this post");
         System.out.println(">>> \"D\" - view next post");
+        System.out.println(">>> \"X\" - reply to this post");
         System.out.println(">>> \"Q\" - quit viewing post");
 
         System.out.println(">>> ");
@@ -173,13 +174,16 @@ public class viewPost {
             if(userOption.length() == 1){
                 switch(userOption.toUpperCase()){
                     case "Q": break; //exit code
-                    case "W": viewSinglePost(postTree, post.getParentID());
+                    case "W": viewSinglePost(postTree, postQueue, post.getParentID());
                               break;
-                    case "A": viewSinglePost(postTree, postTree.getPreviousChronologicalPostID(post));
+                    case "A": viewSinglePost(postTree, postQueue, postTree.getPreviousChronologicalPostID(post));
                               break;
-                    case "D": viewSinglePost(postTree, postTree.getNextChronologicalPostID(post));
+                    case "D": viewSinglePost(postTree, postQueue, postTree.getNextChronologicalPostID(post));
                               break;
-                    case "S": this.viewMenu(postTree, post.getChildren()); break; //temporary
+                    case "S": this.viewMenu(postTree, postQueue, post.getChildren());
+                              break;
+                    case "X": new ReplyPost().reply(postTree, postQueue, post);
+                              break;
                     default: askInputAgain = true; break;
                 }
             }

@@ -12,7 +12,7 @@ public class test {
         tree.addPost(new Post(1234, "hi world"));
         
         //for test , this need more edit
-        new SubmitPost().post(tree, queue);
+        new SubmitPost(tree, queue);
         for(Post p: tree.getAllPosts()){
             System.out.println(p);
         }

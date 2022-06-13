@@ -63,10 +63,10 @@ public class homepage {
             System.out.println();
             switch (option) {
                 case 1:
-                    new SubmitPost().post(postTree, postQueue);
+                    new SubmitPost(postTree, postQueue);
                     break;
                 case 2:
-                    new viewPost(postTree);
+                    new viewPost(postTree, postQueue);
                     break;
                 case 3:
                     new ReplyPost().reply(postTree, postQueue);

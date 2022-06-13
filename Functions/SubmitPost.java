@@ -16,6 +16,10 @@ import static Functions.viewPost.getInteger;
 
 // to submit the post
 public class SubmitPost {
+    public SubmitPost(PostTree postTree, PostQueue postQueue){
+        this.post(postTree, postQueue);
+    }
+
     public void post(PostTree postTree, PostQueue postQueue){
         Scanner in = new Scanner(System.in);
         System.out.println("Input the post ID to reply to, leave blank if not replying: #UM");
