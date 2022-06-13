@@ -1,7 +1,7 @@
 package Functions;
 
 public class spamChecking {
-    private final static double similarityScore = 0.9;
+    private final static double similarityScore = 0.75;
 
     public static boolean isSpam (PostQueue queue, Post post){
         return isSimilarContent(queue, post.getContent());
@@ -9,22 +9,24 @@ public class spamChecking {
     public static boolean isSimilarContent(PostQueue queue, String comment){
         for(Post p:queue.getAllPosts()){
             String compare = p.getContent();
-            double score = StringSimilarity.editDistance(compare, comment);
+            double score = StringSimilarity.similarity(compare, comment);
             if(score > similarityScore)
                 return true;
         }
         return false;
     }
 }
+
 class StringSimilarity {
- 
     /**
      * Calculates the similarity (a number within 0 and 1) between two strings.
      */
     public static double similarity(String s1, String s2) {
-        String longer = s1, shorter = s2;
+        String longer = s1.replaceAll("[\\t\\n\\r]+"," ");
+        String shorter = s2.replaceAll("[\\t\\n\\r]+"," ");
         if (s1.length() < s2.length()) { // longer should always have greater length
-            longer = s2; shorter = s1;
+            longer = s2.replaceAll("[\\t\\n\\r]+"," ");
+            shorter = s1.replaceAll("[\\t\\n\\r]+"," ");
         }
         int longerLength = longer.length();
         if (longerLength == 0) { return 1.0; /* both strings are zero length */ }
@@ -32,11 +34,10 @@ class StringSimilarity {
         return (longerLength - StringUtils.getLevenshteinDistance(longer, shorter)) /
                                                              (double) longerLength; */
         return (longerLength - editDistance(longer, shorter)) / (double) longerLength;
- 
     }
  
     // Example implementation of the Levenshtein Edit Distance
-    // See http://r...content-available-to-author-only...e.org/wiki/Levenshtein_distance#Java
+    // See http://rosettacode.org/wiki/Levenshtein_distance#Java
     public static int editDistance(String s1, String s2) {
         s1 = s1.toLowerCase();
         s2 = s2.toLowerCase();
@@ -61,6 +62,6 @@ class StringSimilarity {
             if (i > 0)
                 costs[s2.length()] = lastValue;
         }
-        return costs[s2.length()];
+        return Math.abs(costs[s2.length()]);
     }
 }

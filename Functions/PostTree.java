@@ -12,6 +12,8 @@ public class PostTree {
     //change to public for testing code only
     // DO NOT use this function for user input code, use PostQueue
     public boolean addPost(Post p){
+        if(p == null)
+            return false;
         ArrayList<Integer> pastID = this.getIDs(); //get list of post ID
         if(pastID.contains(p.getPostID())){ //check if ID is already in tree, do not add
             return false;

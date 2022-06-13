@@ -64,7 +64,7 @@ public class SubmitPost {
             return;
         }
         //filtering content
-        if(homepage.isOnVacation){
+        if(homepage.isOnVacation){ //if admin activated this option
             HashMap<String, Boolean> dict;
             try {
                 dict = VacationMode.checkPost(newPost.getContent());
@@ -82,13 +82,8 @@ public class SubmitPost {
             }
         }
 
-        try {
-            //add the post to the postTree , need wait few time
-            postQueue.addTask(postTree, newPost);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        //add the post to the postTree , need wait few time
+        postQueue.addTask(postTree, newPost);
 
         System.out.println("Post submitted, please wait while we approve it.");
         return;

@@ -27,6 +27,7 @@ public class homepage {
         }
 
         // new queue for posts
+        // will also init executor
         postQueue = new PostQueue();
 
         System.out.println("======== Welcome to Confession Time ========");
@@ -136,8 +137,17 @@ public class homepage {
         // free up reader
         sc.close();
 
-        // TODO: check if there are still posts in queue and resolve them
-        // sample function call: postQueue.checkRemaining(); postQueue.push(postTree);
+        // check if there are still posts in queue and resolve them
+        // stop executor
+        postQueue.stopTasks();
+        int remainingCount = postQueue.queueSize();
+        if(remainingCount > 0){
+            System.out.printf("Remaining %d post%s left; all are pushed into structure.", remainingCount, remainingCount>1?"s":"");
+            // move task into tree
+            postQueue.moveTask(postTree);
+        } else {
+            System.out.println("No tasks left.");
+        }
 
         // save the tree
         try {
@@ -146,6 +156,7 @@ public class homepage {
             e.printStackTrace();
         }
 
+        System.out.println("\n======== Thank you for using Confession Time ========");
         // exit program
         System.exit(0);
     }

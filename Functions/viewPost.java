@@ -1,6 +1,5 @@
 package Functions;
 
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -65,7 +64,7 @@ public class viewPost {
                     System.out.println("Invalid option. Please try again.");
             }
             if(userOption.length() == 1){
-                switch(userOption){
+                switch(userOption.toUpperCase()){
                     case "Q": continueViewing = false; return; //exit code
                     case "A": if(pageNum > 0) pageNum--; 
                               else System.out.println("Invalid option!"); 
@@ -129,7 +128,7 @@ public class viewPost {
                     System.out.println("Invalid option. Please try again.");
             }
             if(userOption.length() == 1){
-                switch(userOption){
+                switch(userOption.toUpperCase()){
                     case "Q": continueViewing = false; return; //exit code
                     case "A": if(pageNum > 0) pageNum--; 
                               else System.out.println("Invalid option!"); 
@@ -204,7 +203,7 @@ public class viewPost {
         
         if(str.length() > this.maxCommentLength){
             int correctedMaxWidth = (Character.isLowSurrogate(str.charAt(this.maxCommentLength)))&&this.maxCommentLength>0 ? this.maxCommentLength-1 : this.maxCommentLength;
-            return str.substring(0, Math.min(str.length(), correctedMaxWidth)) + "...";
+            return str.substring(0, Math.min(str.length(), correctedMaxWidth)) + "…";
         }
         
         return str;

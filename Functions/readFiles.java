@@ -9,7 +9,8 @@ import java.util.Scanner;
 
 public class readFiles {
     public static PostTree readTree(String filename) throws IOException {
-        Scanner sc = new Scanner(new FileInputStream(filename));
+        //read with utf-8 to support non-ASCII character (eg emoji)
+        Scanner sc = new Scanner(new FileInputStream(filename),"utf-8");
         PostTree tree = new PostTree();
         while(sc.hasNextLine()){
             String line = sc.nextLine();
@@ -18,8 +19,15 @@ public class readFiles {
                 items = parseCSV(line);
                 int postID = Integer.parseInt(items.get(0));
                 LocalDateTime date = LocalDateTime.parse(items.get(1));
-                String content = unescape(items.get(2)); 
-                int parentPostID = Integer.parseInt(items.get(3));
+                //read comment, just in case comment has comma
+                String content = new String();
+                for(int i=2; i < items.size()-1; i++){
+                    content += items.get(i);
+                    if(i != items.size()-2)
+                        content+=",";
+                }
+                content = unescape(content);
+                int parentPostID = Integer.parseInt(items.get(items.size()-1));
                 if(parentPostID == -1){
                     Post post = new Post(postID, content, date);
                     tree.addPost(post);
@@ -42,8 +50,8 @@ public class readFiles {
         return str.replaceAll("\\\\n", "\\\n").replaceAll("\\\\\"", "\"") ;
     }
 
-    
-    final static Pattern quote = Pattern.compile("^\\s*\"((?:[^\"]|(?:\"\"))*?)\"\\s*,");
+    final static String regex_str = "(?:,|\\n|^)(\"(?:(?:\\\")*[^\"]*)*\"|[^\",\\n]*|(?:\\n|$))";
+    final static Pattern quote = Pattern.compile(regex_str);
 
     final static List<String> parseCSV(String line) throws Exception{
         List<String> list = new ArrayList<String>();

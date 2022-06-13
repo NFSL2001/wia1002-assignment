@@ -1,11 +1,9 @@
 package Functions;
 
+import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
+import java.util.List;
+import java.util.concurrent.*;
 /* By Criss
     1 TimeUnit.DAYS.sleep(1);//day
     2 TimeUnit.HOURS.sleep(1);//hour
@@ -17,104 +15,106 @@ import java.util.concurrent.locks.Lock;
 * */
 
 //lock it for few minus
-public class PostQueue implements Lock {
-    private LinkedList<Post> queue = new LinkedList<>();
+public class PostQueue {
+    //thread for concurrent
+    private ExecutorService executor = Executors.newFixedThreadPool(1);
+    //store posts to be added
+    private static ConcurrentLinkedQueue<Post> queue = new ConcurrentLinkedQueue<>();
 
-    public PostQueue(){
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println();
-            }
-        },2000L );
-    }
+    public PostQueue(){}
     public Post peekPost(){
-        return this.queue.peek();
+        return queue.peek();
     }
     public boolean isEmpty(){
-        return this.queue.isEmpty();
+        return queue.isEmpty();
     }
     public int queueSize(){
-        return this.queue.size();
+        return queue.size();
     }
     public LinkedList<Post> getAllPosts(){
-        return this.queue;
-    }
-    public Post popPost() throws InterruptedException {
-        int i = this.queueSize();
-        if(i <= 5){
-            // this is just wait for 5 second only for presentation
-            TimeUnit.SECONDS.sleep(5);
-            //TimeUnit.MINUTES.sleep(15);// wait for 15minutes
-            //Pop from Queue
-            //new PostQueue().popPost(); //By Cris
-            popPost();
-            this.queue.pop();
-            i--;
-
-        } else if(i <= 10){
-            // this is just wait for 3 second only for presentation
-            TimeUnit.SECONDS.sleep(3);
-            //TimeUnit.MINUTES.sleep(10);// wait for 10minutes
-            //Pop from Queue
-            //new PostQueue().popPost();
-            popPost();
-            this.queue.pop();
-            i--;
-        } else {
-            // this is just wait for 3 second only for presentation
-            TimeUnit.SECONDS.sleep(1);
-            //TimeUnit.MINUTES.sleep(5);// wait for 10minutes
-            //Pop from Queue
-            //new PostQueue().popPost();
-            popPost();
-            this.queue.pop();
-            i--;
-
+        LinkedList<Post> list = new LinkedList<Post>();
+        for(Post p: queue){
+            list.add(p);
         }
-        return this.queue.pop();
+        return list;
     }
 
-
-    public boolean addTask(PostTree tree, Post p) throws InterruptedException {
-        //push post into end of queue
-        this.queue.offer(p);
-        
-
-        //remove post from end of queue
-        Post post_remove = this.queue.poll();
-        //add the post into tree
-        assert post_remove != null;
-        return tree.addPost(post_remove);
+    public void addTask(PostTree tree, Post p){
+        //add post into queue
+        queue.offer(p);
+        //submit a runnable task to executor
+        executor.execute(new MyRunnable(tree, queue));
+        return;
     }
-
-    @Override
-    public void lock() {
-
+    public void stopTasks(){ //stop executor
+        try {
+            System.out.println("Attempting to end pending tasks…");
+            executor.shutdown();
+            executor.awaitTermination(10, TimeUnit.SECONDS);
+        }
+        catch (InterruptedException e) {}
+        finally {
+            /*if (!executor.isTerminated()) {
+                System.err.println("cancel non-finished tasks");
+            }*/
+            executor.shutdownNow();
+        }
     }
-
-    @Override
-    public void lockInterruptibly() throws InterruptedException {
-
+    public boolean moveTask(PostTree tree){ //move all the remaining task into given tree
+        boolean isDone = true;
+        for(Post p: queue){
+            boolean test = tree.addPost(p);
+            isDone = isDone && test;
+        }
+        return isDone;
     }
+}
 
-    @Override
-    public boolean tryLock() {
-        return false;
+//runnable class for thread
+class MyRunnable implements Runnable {
+    private PostTree postTree;
+    private ConcurrentLinkedQueue<Post> queue;
+    private boolean isDemo = true;
+
+    public MyRunnable(PostTree postTree, ConcurrentLinkedQueue<Post> queue) {
+        // store parameter for later user
+        this.postTree = postTree;
+        this.queue = queue;
     }
-
-    @Override
-    public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
-        return false;
-    }
-
-    @Override
-    public void unlock() {
-
-    }
-
-    @Override
-    public Condition newCondition() {
-        return null;
+    
+    /*
+     * Waits according to the size of queue.
+     * Then, try to pop a post from given queue and add it into the tree.
+     * Post should be pushed into queue before adding this task.
+     */
+    public void run() {
+        try {
+            int i = queue.size();
+            if(i <= 5){ //less than 5, wait longest
+                if(isDemo)
+                    TimeUnit.SECONDS.sleep(10);
+                else
+                    TimeUnit.MINUTES.sleep(15);
+            } else if(i <= 10){ // 5 <= x <= 10
+                if(isDemo)
+                    TimeUnit.SECONDS.sleep(8);
+                else
+                    TimeUnit.MINUTES.sleep(10);
+            } else { //more than 10, wait short
+                if(isDemo)
+                    TimeUnit.SECONDS.sleep(5);
+                else
+                    TimeUnit.MINUTES.sleep(5);
+            }
+            //pop a post from queue
+            Post p = queue.poll();
+            //add the post into tree
+            this.postTree.addPost(p);
+            //print when post is added
+            //System.out.println("Post " + Integer.toString(p.getPostID()) + " is added to tree");
+        } catch (InterruptedException e) {
+            //e.printStackTrace();
+            System.out.println("Task ended.");
+        }
     }
 }
