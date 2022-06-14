@@ -5,6 +5,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 
+import static Functions.viewPost.getInteger;
+
 //remove the post according to the ID
 public class BatchRemoval {
 
@@ -12,8 +14,8 @@ public class BatchRemoval {
         Scanner num_sc = new Scanner(System.in);
         System.out.print("Type post ID to remove (number or #UM00000000): ");
         String userOption = num_sc.next();
-        if(viewPost.getInteger(userOption) != null || viewPost.pattern.matcher(userOption).find()){ //if input a digit
-            Integer removeID = viewPost.getInteger(userOption);
+        if(getInteger(userOption) != null || viewPost.pattern.matcher(userOption).find()){ //if input a digit
+            Integer removeID = getInteger(userOption);
             if(removeID == null){
                 Matcher m = viewPost.pattern.matcher(userOption);
                 removeID = Integer.parseInt(m.group(1));

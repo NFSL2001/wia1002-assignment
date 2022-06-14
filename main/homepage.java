@@ -44,8 +44,8 @@ public class homepage {
             System.out.println();
             System.out.println("=== Main Menu ===");
             System.out.println("1: Submit a new post");
-            System.out.println("2: View posts");
-            System.out.println("3: Reply to a post");
+            System.out.println("2: Reply to a post");
+            System.out.println("3: View posts");
             System.out.println("4: Search a post");
 
             // display whether admin login or not
@@ -72,10 +72,10 @@ public class homepage {
                     new SubmitPost(postTree, postQueue);
                     break;
                 case 2:
-                    new viewPost(postTree, postQueue);
+                    new ReplyPost().reply(postTree, postQueue);
                     break;
                 case 3:
-                    new ReplyPost().reply(postTree, postQueue);
+                    new viewPost(postTree, postQueue);
                     break;
                 case 4:
                     new searchPost();
