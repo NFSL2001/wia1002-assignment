@@ -8,11 +8,18 @@ import java.util.regex.*;
 public class viewPost {
     private final double defaultPageSize = 10.0;
     private final static int maxCommentLength = 30;
-    final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
+    final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
     final static Pattern pattern = Pattern.compile("#UM(\\d+)", Pattern.CASE_INSENSITIVE);
 
     public viewPost(PostTree postTree, PostQueue postQueue){
         this.viewMenu(postTree, postQueue);
+    }
+
+    public viewPost(PostTree postTree, PostQueue postQueue, LinkedList<Post> posts){
+        if(posts != null)
+            this.viewMenu(postTree, postQueue, posts);
+        else
+            this.viewMenu(postTree, postQueue);
     }
 
     public void viewMenu(PostTree postTree, PostQueue postQueue){
@@ -72,7 +79,7 @@ public class viewPost {
                     case "D": if(pageNum < totalPages && totalPages > 1) pageNum++;
                               else System.out.println("Invalid option!"); 
                               break;
-                    case "S": new SearchPost(); //go to search post
+                    case "S": new SearchPost(postTree, postQueue); //go to search post
                               continueViewing = false; return; //exit code when done searching
                 }
             }
@@ -135,7 +142,7 @@ public class viewPost {
                     case "D": if(pageNum < totalPages && totalPages > 1) pageNum++;
                               else System.out.println("Invalid option!"); 
                               break;
-                    case "S": new SearchPost(); //go to search post
+                    case "S": new SearchPost(postTree, postQueue); //go to search post
                               continueViewing = false; return; //exit code when done searching
                 }
             }

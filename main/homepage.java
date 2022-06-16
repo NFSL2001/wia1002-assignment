@@ -46,12 +46,11 @@ public class homepage {
             System.out.println("1: Submit a new post");
             System.out.println("2: Reply to a post");
             System.out.println("3: View posts");
-            System.out.println("4: Search a post by post key word");
-            System.out.println("5: Search a post by post ID");
+            System.out.println("4: Search a post");
 
             // display whether admin login or not
-            if (!isAdmin) System.out.println("6: Admin login");
-            else System.out.println("6: Admin logout");
+            if (!isAdmin) System.out.println("5: Admin login");
+            else System.out.println("5: Admin logout");
             // functions only for admin
             if (isAdmin) {
                 System.out.println("11: ADMIN ONLY: Remove a post and subsequent posts");
@@ -79,17 +78,12 @@ public class homepage {
                     new viewPost(postTree, postQueue);
                     break;
                 case 4:
-                    System.out.println("Please in put the key word to search: ");
-                    new SearchPost().searchPost(new Scanner(System.in).nextLine());
-                    break;
-                case 5:
-                    System.out.println("Please in put the post ID to search: ");
-                    new SearchPost().searchPost(new Scanner(System.in).nextInt());
+                    new SearchPost(postTree, postQueue);
                     break;
 
                 // if admin, then set to false to logout
                 // if not, login to admin
-                case 6:
+                case 5:
                     if (isAdmin) {
                         isAdmin = false;
                         System.out.println("You have been logged out.");
