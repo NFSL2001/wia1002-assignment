@@ -72,7 +72,7 @@ public class viewPost {
                     case "D": if(pageNum < totalPages && totalPages > 1) pageNum++;
                               else System.out.println("Invalid option!"); 
                               break;
-                    case "S": new searchPost(); //go to search post
+                    case "S": new SearchPost(); //go to search post
                               continueViewing = false; return; //exit code when done searching
                 }
             }
@@ -135,7 +135,7 @@ public class viewPost {
                     case "D": if(pageNum < totalPages && totalPages > 1) pageNum++;
                               else System.out.println("Invalid option!"); 
                               break;
-                    case "S": new searchPost(); //go to search post
+                    case "S": new SearchPost(); //go to search post
                               continueViewing = false; return; //exit code when done searching
                 }
             }

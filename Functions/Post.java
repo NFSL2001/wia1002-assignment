@@ -11,6 +11,13 @@ public class Post {
     private String content;
     private LinkedList<Post> children = new LinkedList<>();
 
+    public boolean isEmpty(){
+        return children.isEmpty();
+    }
+
+    public Post() {
+    }
+
     public Post(int postID, String content){
         this.postID = postID;
         this.content = content;

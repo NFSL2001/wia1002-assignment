@@ -34,6 +34,15 @@ public class PostTree {
         return null;
     }
 
+    public Post findPost(String keyWord){
+        if(keyWord == null) return null;
+        for (Post post : list) {
+            // a bit hard to do ,not correct
+            if (list.contains(keyWord)) return post;
+        }
+        return null;
+    }
+
     //iteratively remove post
     public boolean removePost(int postID){
         if(this.findPost(postID) == null)
