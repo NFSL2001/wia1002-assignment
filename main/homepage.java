@@ -46,8 +46,8 @@ public class homepage {
             System.out.println("1: Submit a new post");
             System.out.println("2: Reply to a post");
             System.out.println("3: View posts");
-            System.out.println("4: Search a post by post ID");
-            System.out.println("5: Search a post by post key word");
+            System.out.println("4: Search a post by post key word");
+            System.out.println("5: Search a post by post ID");
 
             // display whether admin login or not
             if (!isAdmin) System.out.println("6: Admin login");

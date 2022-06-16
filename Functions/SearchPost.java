@@ -11,11 +11,11 @@ public class SearchPost {
 
     public Post searchPost(String keyWord){
         //search all post which including the keyWord
-        if(keyWord == null) return null;
         Scanner in = new Scanner(System.in);
+        if(keyWord == null) return null;
 
         //if don't have the key word ,return null
-        if (!( new Post().getContent().contains(keyWord))) return null;
+        if (!(keyWord.contains(new Post().getContent()))) return null;// need fix null
         //System.out.println("Please in put the key word to search: ");
         keyWord = in.nextLine();
         return new PostTree().findPost(keyWord);//hard to do with search method
