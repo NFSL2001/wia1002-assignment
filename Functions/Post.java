@@ -54,7 +54,8 @@ public class Post {
         return date;
     }
     public String getContent() {
-        return content;
+        return content;// this always null;
+
     }
 
     
