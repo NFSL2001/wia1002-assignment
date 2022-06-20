@@ -41,7 +41,7 @@ public class VacationMode {
     public static api apiCall(String postContent) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.sightengine.com/1.0/text/check.json?text="
-                        +postContent.replace(" ", "-")+
+                        +postContent.replace(" ", "-").replace("\n", "-")+
                         "&lang=en&mode=standard"))
                 .build();
 
