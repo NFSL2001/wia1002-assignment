@@ -26,7 +26,7 @@ public class ReplyPost {
         }
 
         //make a new post pobject
-        Post newPost = new Post(postTree.getNextPostID(), parentPost, user_comment);
+        Post newPost = new Post(postTree.getNextPostID(), parentPost, user_comment.strip());
         SubmitPost.pushPostToQueue(postTree, postQueue, newPost);
         return;
     }

@@ -49,7 +49,7 @@ public class SubmitPost {
         }
 
         //make a new post pobject
-        Post newPost = new Post(postTree.getNextPostID(), postTree.findPost(parentPostID), user_comment);
+        Post newPost = new Post(postTree.getNextPostID(), postTree.findPost(parentPostID), user_comment.strip());
         pushPostToQueue(postTree, postQueue, newPost);
         return;
     }
